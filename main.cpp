@@ -13,7 +13,6 @@
 
 int intInput(std::string statement){
     int res;
-    //test
     std::cout << statement << std::endl;
     while(true){
         std::cin >> res;
