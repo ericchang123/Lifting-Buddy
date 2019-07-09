@@ -72,6 +72,8 @@ void print(std::string type){
 
 int main(){
     std::unordered_map<std::string, user> users;
+
+
     std::string s;
     print(M_P);
     while(std::cin >> s){
@@ -85,7 +87,17 @@ int main(){
             std::cout << "Enter a unique username\n";
 
             while(std::cin >> userName){
+
+
                 if(users.find(userName) == users.end()){
+                    //if user exists 
+
+
+
+
+
+
+
                     std::cout << "Username available!\n";
                     std::cout << "Enter first and last name separated by a space\n";
                     std::cin >> fName >> lName;
