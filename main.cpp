@@ -2,6 +2,10 @@
 #include <limits>
 #include <unordered_map>
 #include <string>
+#include <cctype>
+
+#include "md5.h"
+#include "password.cpp"
 #include "user.cpp"
 #include "squat.cpp"
 #include "bench.cpp"
@@ -34,10 +38,8 @@ void print(std::string type){
 
 
     if(type == "MAIN_PROMPT"){
-        std::cout << "Enter '1' to add a new user\n"
-                     "Enter '2' to access/modify an existing user's names\n"
-                     "Enter '3' to access/modify an existing user's bodily characteristics\n"
-                     "Enter '4' to access/modify an existing user's lifts\n"
+        std::cout << "\nEnter '1' to sign up\n"
+                     "Enter '2' to sign back in\n"
                      "Enter 'Quit' to quit\n\n";
         return;
     }
@@ -72,33 +74,28 @@ void print(std::string type){
 
 int main(){
     std::unordered_map<std::string, user> users;
-
+    std::unordered_map<std::string, std::string> hash;
 
     std::string s;
     print(M_P);
     while(std::cin >> s){
 
-
-
         if(s == "1"){
+
             std::string userName, fName, lName;
             double weight;
             int height;
-            std::cout << "Enter a unique username\n";
+            std::cout << "\nEnter a unique username\n";
 
             while(std::cin >> userName){
 
-
                 if(users.find(userName) == users.end()){
-                    //if user exists 
-
-
-
-
-
-
-
                     std::cout << "Username available!\n";
+
+                    std::string passHash = md5(validatePass());
+                    std::cout << passHash << std::endl;
+                    hash.insert(std::make_pair(userName, passHash));
+
                     std::cout << "Enter first and last name separated by a space\n";
                     std::cin >> fName >> lName;
                     height = intInput("Enter height (inches, Integer)");
