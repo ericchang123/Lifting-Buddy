@@ -87,13 +87,13 @@ int main(){
             int height;
             std::cout << "\nEnter a unique username\n";
 
-            while(std::cin >> userName){
+            label1:
 
+                std::cin >> userName;
                 if(users.find(userName) == users.end()){
                     std::cout << "Username available!\n";
 
                     std::string passHash = md5(validatePass());
-                    std::cout << passHash << std::endl;
                     hash.insert(std::make_pair(userName, passHash));
 
                     std::cout << "Enter first and last name separated by a space\n";
@@ -105,13 +105,13 @@ int main(){
                     std::cin >> weight >> height;
                     */
                     users.insert(std::make_pair(userName, user(fName, lName, weight, height)));
-                    break;
                 }
                 else{
                     std::cout << userName << " not available. Please try again.\n";
+                    goto label1;
                 }
             }
-        }
+
 
 
 /*
