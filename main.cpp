@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <cctype>
+#include <stdio.h>
 
 #include "md5.h"
 #include "password.cpp"
@@ -17,21 +18,37 @@
 //test
 
 int intInput(std::string statement){
-    int res;
     std::cout << statement << std::endl;
-    while(true){
-        std::cin >> res;
-        std::cout << "test1\n";
-        if(std::cin.fail()){
-            std::cout << "test2\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Input requires an integer. Try again.\n";
-            continue;
+    top:
+        std::string input;
+        bool valid = true;
+        std::cin >> input;
+        for(auto c : input)
+            if(!isdigit(c)) valid = false;
+        if(!valid){
+            std::cout << "Input must be an integer. Please try again.\n";
+            goto top;
         }
-        break;
-    }
-    return res;
+        return atoi(input.c_str());
+}
+
+double doubleInput(std::string statement){
+    std::cout << statement << std::endl;
+    top:
+        std::string input;
+        bool valid = true;
+        int numPoints = 1;
+        std::cin >> input;
+        for(auto c : input){
+            if(c == '.') numPoints--;
+            else if(!isdigit(c)) valid = false;
+        }
+
+        if(!valid || numPoints != 0){
+            std::cout << "Input must be a double. Please try again.\n";
+            goto top;
+        }
+        return stod(input);
 }
 
 void print(std::string type){
@@ -99,12 +116,9 @@ int main(){
 
                     std::cout << "Enter first and last name separated by a space\n";
                     std::cin >> fName >> lName;
+
                     height = intInput("Enter height (inches, Integer)");
-                    weight = 180;
-                    /*
-                    std::cout << "Enter weight (lbs, Decimal) and height (inches, Integer) separated by a space\n";
-                    std::cin >> weight >> height;
-                    */
+                    weight = doubleInput("Enter weight (pounds, Decimal)");
                     users.insert(std::make_pair(userName, user(fName, lName, weight, height)));
                 }
                 else{
